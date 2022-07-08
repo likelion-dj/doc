@@ -4,7 +4,8 @@
 ## 할일
 - [x] 깃허브 오거나이제이션, 리포지터리 생성
 - [x] 스프링 프로젝트 세팅
-- [ ] 프로젝트에 GIT 연결
+- [x] 프로젝트에 GIT 연결
+- [ ]
 
 ## 관련링크
 - [https://start.spring.io/](https://start.spring.io/)
