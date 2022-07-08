@@ -1,11 +1,6 @@
 # 일지
 
 # 2022-07-08
-## 할일
-- [x] 깃허브 오거나이제이션, 리포지터리 생성
-- [x] 스프링 프로젝트 세팅
-- [x] 프로젝트에 GIT 연결
-- [ ]
 
 ## 관련링크
 - [https://start.spring.io/](https://start.spring.io/)
@@ -33,6 +28,9 @@ repositories {
 }
 
 dependencies {
+    /**
+     * 부트 라이브러리
+     */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -41,12 +39,17 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    /**
+     * 추가 라이브러리
+     */
+    implementation 'org.modelmapper:modelmapper:3.1.0'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
 }
 
 tasks.named('test') {

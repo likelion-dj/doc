@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <meta charset="UTF-8"/>
+</head>
+
+<body>
+<header th:replace="layouts/header :: headerFragment"></header>
+
+<section layout:fragment="content">
+    <div>내용</div>
+</section>
+
+<footer th:replace="layouts/footer :: footerFragment"></footer>
+
+<script layout:fragment="javascript" type="text/javascript"></script>
+</body>
+</html>
