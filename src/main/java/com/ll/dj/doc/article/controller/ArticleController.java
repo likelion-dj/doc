@@ -33,6 +33,4 @@ public class ArticleController {
     public String create() {
         return "redirect:/article/";
     }
-
-
 }

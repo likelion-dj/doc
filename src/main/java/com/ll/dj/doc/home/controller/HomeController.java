@@ -1,4 +1,4 @@
-package com.ll.dj.doc.home;
+package com.ll.dj.doc.home.controller;
 
 import org.springframework.stereotype.Controller;
 

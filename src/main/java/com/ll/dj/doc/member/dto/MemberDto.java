@@ -1,4 +1,4 @@
-package com.ll.dj.doc.user.dto;
+package com.ll.dj.doc.member.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

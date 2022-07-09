@@ -9,21 +9,22 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
-    private final ModelMapper mapper;
+    private final ModelMapper modelMapper;
     private final ArticleRepository articleRepository;
 
     public Article of(ArticleDto articleDto) {
-        return mapper.map(articleDto, Article.class);
+        if (articleDto == null) return null;
+        return modelMapper.map(articleDto, Article.class);
     }
 
     public ArticleDto of(Article article) {
-        return mapper.map(article, ArticleDto.class);
+        if (article == null) return null;
+        return modelMapper.map(article, ArticleDto.class);
     }
 
     public List<ArticleDto> of(List<Article> articleList) {
@@ -39,15 +40,13 @@ public class ArticleService {
     }
 
     public ArticleDto findById(long id) {
-        Optional<Article> optArticle = articleRepository.findById(id);
-
-        return optArticle.isPresent() ? of(optArticle.get()) : null;
+        return of(articleRepository.findById(id).orElse(null));
     }
 
     @Transactional
     public void modify(ArticleDto articleDto) {
         Article article = articleRepository.findById(articleDto.getId()).get();
-        mapper.map(articleDto, article);
+        modelMapper.map(articleDto, article);
     }
 
     @Transactional

@@ -2,8 +2,13 @@ package com.ll.dj.doc;
 
 import com.ll.dj.doc.article.dto.ArticleDto;
 import com.ll.dj.doc.article.service.ArticleService;
+import com.ll.dj.doc.base.dto.RsData1;
 import com.ll.dj.doc.base.dto.RsData2;
-import com.ll.dj.doc.user.dto.MemberDto;
+import com.ll.dj.doc.email.service.EmailService;
+import com.ll.dj.doc.emailVerification.service.EmailVerificationService;
+import com.ll.dj.doc.member.dto.MemberDto;
+import com.ll.dj.doc.member.service.MemberService;
+import com.ll.dj.doc.util.Ut;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +104,60 @@ class MemberServiceTest {
     private RsData2<MemberDto, Long> joinMember(String username, String password, String name, String email) {
         MemberDto memberDto = new MemberDto(username, password, name, email);
         return memberService.join(memberDto);
+    }
+}
+
+@SpringBootTest
+@Transactional
+@ActiveProfiles("test")
+class EmailVerificationServiceTest {
+    @Autowired
+    EmailVerificationService emailVerificationService;
+
+    @Test
+    public void 이메일_인증코드_생성() {
+        String code = emailVerificationService.genEmailVerificationCode(1);
+
+        assertThat(code).hasSizeGreaterThan(20);
+    }
+
+    @Test
+    public void 이메일_인증코드_유효성검사() {
+        String code = emailVerificationService.genEmailVerificationCode(1);
+        RsData1<String> rsData1 = emailVerificationService.verifyVerificationCode(1, code);
+
+        assertThat(rsData1.isSuccess()).isTrue();
+    }
+
+    @Test
+    public void 이메일_인증코드_URL_생성() {
+        String url = emailVerificationService.genEmailVerificationUrl(1);
+
+        assertThat(Ut.url.isUrl(url)).isTrue();
+    }
+}
+
+@SpringBootTest
+@Transactional
+@ActiveProfiles("test")
+class EmailServiceTest {
+    @Autowired
+    EmailService emailService;
+
+    @Test
+    public void 이메일_발송() {
+        RsData1<Long> sendEmailRs = emailService.sendEmail("user1@test.com", "제목1", "내용1");
+        long emailLogId = sendEmailRs.getData1();
+
+        assertThat(emailLogId).isGreaterThan(0);
+    }
+
+    @Test
+    public void 이메일_2개_발송() {
+        RsData1<Long> sendEmailRs1 = emailService.sendEmail("user1@test.com", "제목1", "내용1");
+        RsData1<Long> sendEmailRs2 = emailService.sendEmail("user1@test.com", "제목2", "내용2");
+
+        assertThat(sendEmailRs2.getData1()).isGreaterThan(sendEmailRs1.getData1());
     }
 }
 

@@ -1,6 +1,6 @@
-package com.ll.dj.doc.user.repository;
+package com.ll.dj.doc.member.repository;
 
-import com.ll.dj.doc.user.entity.Member;
+import com.ll.dj.doc.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
