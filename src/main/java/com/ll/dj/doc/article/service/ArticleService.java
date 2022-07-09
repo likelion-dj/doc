@@ -36,10 +36,10 @@ public class ArticleService {
         return optArticle.isPresent() ? of(optArticle.get()) : null;
     }
 
+    @Transactional
     public void modify(ArticleDto articleDto) {
         Article article = articleRepository.findById(articleDto.getId()).get();
         mapper.map(articleDto, article);
-        articleRepository.save(article);
     }
 
     @Transactional

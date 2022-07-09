@@ -5,7 +5,7 @@ import com.ll.dj.doc.article.service.ArticleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -18,6 +18,7 @@ public class AppTest {
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 class ArticleServiceTest {
     @Autowired
     ArticleService articleService;
@@ -53,7 +54,6 @@ class ArticleServiceTest {
     }
 
     @Test
-    @Rollback(false)
     public void 게시물_수정() {
         ArticleDto articleDto = saveArticle("제목1", "내용1");
 

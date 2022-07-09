@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: local
   thymeleaf:
     enabled: true
     cache: false
@@ -10,13 +12,12 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:mariadb://localhost:3306/doc?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mariadb://localhost:3306/doc?useUnicode=true&characterEncoding=utf8&serverTimeZone=Asia/Seoul
     username: lldj
     password: lldj1234
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.MariaDB103Dialect
     properties:
       hibernate:
         show_sql: true
@@ -27,14 +28,11 @@ spring:
 
   security:
     user:
-      name: user
-      password: 1111
+      name: lldj
+      password: lldj1234
 
 logging:
   level:
     root: info
     com.ll.dj: debug
-
-server:
-  port: 8283
-
+    org.hibernate.type.descriptor.sql: trace
