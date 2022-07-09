@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,12 @@ public class ArticleService {
 
     private ArticleDto of(Article article) {
         return mapper.map(article, ArticleDto.class);
+    }
+
+    private List<ArticleDto> of(List<Article> articleList) {
+        return articleList.stream()
+                .map(article -> of(article))
+                .collect(Collectors.toList());
     }
 
     public ArticleDto create(ArticleDto articleDto) {
@@ -48,7 +55,8 @@ public class ArticleService {
         articleRepository.deleteById(id);
     }
 
-    public List<Article> findAll() {
-        return articleRepository.findAll();
+    public List<ArticleDto> findAll() {
+        return of(articleRepository.findAll());
     }
 }
+

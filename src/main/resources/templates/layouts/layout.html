@@ -6,14 +6,21 @@
 
 <head>
     <meta charset="UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.18.1/dist/full.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/res/common.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
+
+<div class="h-[40px] flex-shrink-0"></div>
 <header th:replace="layouts/header :: headerFragment"></header>
 
-<section layout:fragment="content">
+<main layout:fragment="content" class="flex-grow">
     <div>내용</div>
-</section>
+</main>
 
 <footer th:replace="layouts/footer :: footerFragment"></footer>
 
