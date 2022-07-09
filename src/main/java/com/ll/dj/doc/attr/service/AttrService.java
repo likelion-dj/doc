@@ -17,39 +17,18 @@ public class AttrService {
 
     @Transactional
     public void set(String varName, String value) {
-        Attr attr = findAttr(varName);
-
-        if (attr == null) {
-            create(varName, value, null);
-            return;
-        }
-
-        attr.setValue(value);
+        set(varName, value, null);
     }
 
     @Transactional
     public void set(String varName, String value, LocalDateTime expireDate) {
-        Attr attr = findAttr(varName);
-
-        if (attr == null) {
-            create(varName, value, expireDate);
-            return;
-        }
-
-        attr.setValue(value);
-        attr.setExpireDate(expireDate);
-    }
-
-    private void create(String varName, String value, LocalDateTime expireDate) {
         String[] varNameBits = varName.split("__");
         String relTypeCode = varNameBits[0];
         long relId = Integer.parseInt(varNameBits[1]);
         String typeCode = varNameBits[2];
         String type2Code = varNameBits[3];
 
-        Attr attr = new Attr(relTypeCode, relId, typeCode, type2Code, value, expireDate);
-
-        attrRepository.save(attr);
+        attrRepository.upsert(relTypeCode, relId, typeCode, type2Code, value, expireDate);
     }
 
     public Attr findAttr(String varName) {
@@ -69,7 +48,7 @@ public class AttrService {
             return defaultValue;
         }
 
-        if (attr.getExpireDate().compareTo(LocalDateTime.now()) < 0) {
+        if (attr.getExpireDate() != null && attr.getExpireDate().compareTo(LocalDateTime.now()) < 0) {
             return defaultValue;
         }
 
