@@ -18,15 +18,15 @@ public class ArticleService {
     private final ModelMapper mapper;
     private final ArticleRepository articleRepository;
 
-    private Article of(ArticleDto articleDto) {
+    public Article of(ArticleDto articleDto) {
         return mapper.map(articleDto, Article.class);
     }
 
-    private ArticleDto of(Article article) {
+    public ArticleDto of(Article article) {
         return mapper.map(article, ArticleDto.class);
     }
 
-    private List<ArticleDto> of(List<Article> articleList) {
+    public List<ArticleDto> of(List<Article> articleList) {
         return articleList.stream()
                 .map(article -> of(article))
                 .collect(Collectors.toList());
