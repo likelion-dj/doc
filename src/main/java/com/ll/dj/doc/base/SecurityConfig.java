@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.http.HttpMethod.GET;
 
@@ -15,20 +16,25 @@ import static org.springframework.http.HttpMethod.GET;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final MemberRepository memberRepository;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .antMatchers(GET, "/").permitAll()
-                                .antMatchers(GET, "/articles/new").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/login")
-                                .loginProcessingUrl("/login")
                                 .permitAll()
+                )
+                .logout(logout ->
+                        logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessUrl("/")
+                                .invalidateHttpSession(true)
                 );
 
         return http.build();

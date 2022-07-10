@@ -24,4 +24,6 @@ public class MemberDetailsService implements UserDetailsService {
 
         return new AccountContext(member, Arrays.asList(new SimpleGrantedAuthority("USER")));
     }
+
+
 }
