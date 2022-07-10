@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html
+        layout:decorate="~{layouts/layout.html}"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <title>로그인 | DOC</title>
+</head>
+
+<body>
+<main layout:fragment="content">
+    <section class="section-new mt-10">
+        <div class="container mx-auto px-2">
+            <h1>로그인</h1>
+
+            <form method="POST">
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}"/>
+                <label for="username">username: </label>
+                <input type="text" name="username" id="username" />
+                <label for="password">password: </label>
+                <input type="text" name="password" id="password" />
+                <button type="submit">로그인</button>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+
+</html>

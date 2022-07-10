@@ -1,9 +1,13 @@
 # 일지
 
+# 2022-07-10
+## 관련링크
+- [토스트 UI 에디터 작업물](https://codepen.io/jangka44/pen/ZExOGmq?editors=0101)
+
 # 2022-07-08
 
 ## 관련링크
-- [https://start.spring.io/](https://start.spring.io/)
+- [스프링부트 프로젝트 스타터 : https://start.spring.io/](https://start.spring.io/)
 
 ## build.gradle
 ```groovy

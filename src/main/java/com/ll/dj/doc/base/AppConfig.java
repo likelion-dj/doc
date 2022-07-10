@@ -6,6 +6,8 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @Slf4j
@@ -47,5 +49,14 @@ public class AppConfig {
         mapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT);
         return mapper;
+    }
+
+    /**
+     * 패스워드 암호화
+     *  - 인코딩시 BCryptPasswordEncoder 방식 사용
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

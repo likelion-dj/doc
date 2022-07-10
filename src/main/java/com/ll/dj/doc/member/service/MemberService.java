@@ -9,6 +9,7 @@ import com.ll.dj.doc.member.entity.Member;
 import com.ll.dj.doc.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     private final EmailVerificationService emailVerificationService;
 
@@ -36,8 +38,10 @@ public class MemberService {
     }
 
     public MemberDto create(MemberDto memberDto) {
-        Member member = memberRepository.save(of(memberDto));
-        memberDto.setId(member.getId());
+        Member member = of(memberDto);
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        Member savedMember = memberRepository.save(member);
+        memberDto.setId(savedMember.getId());
 
         return memberDto;
     }
