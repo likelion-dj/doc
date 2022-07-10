@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
@@ -199,6 +200,7 @@ class ArticleServiceTest {
     }
 
     @Test
+    @Rollback(value = false)
     public void 게시물_수정() {
         ArticleDto articleDto = saveArticle("제목1", "내용1");
 

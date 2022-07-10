@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
@@ -47,6 +48,7 @@ public class EmailService {
         return RsData1.of("S-1", "메일이 발송되었습니다.", "CODE");
     }
 
+    @Transactional
     private void setCompleted(SendEmailLog sendEmailLog, String resultCode, String message) {
         if (resultCode.startsWith("S-")) {
             sendEmailLog.setSendEndDate(LocalDateTime.now());
