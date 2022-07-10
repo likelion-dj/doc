@@ -12,11 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
     private static String activeProfile;
 
-    @Value("${spring.profiles.active:}")
-    public void setActiveProfile(String value) {
-        activeProfile = value;
-    }
-
     public static boolean isNotProd() {
         return isProd() == false;
     }
@@ -39,6 +34,11 @@ public class AppConfig {
 
     public static boolean isTest() {
         return activeProfile.equals("test");
+    }
+
+    @Value("${spring.profiles.active:}")
+    public void setActiveProfile(String value) {
+        activeProfile = value;
     }
 
     @Bean

@@ -2,6 +2,7 @@ package com.ll.dj.doc;
 
 import com.ll.dj.doc.article.dto.ArticleDto;
 import com.ll.dj.doc.article.service.ArticleService;
+import com.ll.dj.doc.base.dto.RsData0;
 import com.ll.dj.doc.base.dto.RsData1;
 import com.ll.dj.doc.base.dto.RsData2;
 import com.ll.dj.doc.email.service.EmailService;
@@ -11,7 +12,6 @@ import com.ll.dj.doc.member.dto.MemberDto;
 import com.ll.dj.doc.member.service.MemberService;
 import com.ll.dj.doc.util.Ut;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -33,10 +33,25 @@ public class AppTest {
 @ActiveProfiles("test")
 class MemberServiceTest {
     @Autowired
-    MemberService memberService;
+    private MemberService memberService;
 
-    @Autowired
-    ModelMapper mapper;
+    public static MemberDto saveMember(MemberService memberService, String username, String password, String name, String email) {
+        MemberDto memberDto = new MemberDto(username, password, name, email);
+        return memberService.create(memberDto);
+    }
+
+    public static RsData2<MemberDto, Long> joinMember(MemberService memberService, String username, String password, String name, String email) {
+        MemberDto memberDto = new MemberDto(username, password, name, email);
+        return memberService.join(memberDto);
+    }
+
+    private MemberDto saveMember(String username, String password, String name, String email) {
+        return saveMember(memberService, username, password, name, email);
+    }
+
+    private RsData2<MemberDto, Long> joinMember(String username, String password, String name, String email) {
+        return joinMember(memberService, username, password, name, email);
+    }
 
     @Test
     public void 회원_생성() {
@@ -97,16 +112,6 @@ class MemberServiceTest {
 
         assertThat(foundMemberDto).isEqualTo(memberDto);
     }
-
-    private MemberDto saveMember(String username, String password, String name, String email) {
-        MemberDto memberDto = new MemberDto(username, password, name, email);
-        return memberService.create(memberDto);
-    }
-
-    private RsData2<MemberDto, Long> joinMember(String username, String password, String name, String email) {
-        MemberDto memberDto = new MemberDto(username, password, name, email);
-        return memberService.join(memberDto);
-    }
 }
 
 @SpringBootTest
@@ -114,7 +119,9 @@ class MemberServiceTest {
 @ActiveProfiles("test")
 class EmailVerificationServiceTest {
     @Autowired
-    EmailVerificationService emailVerificationService;
+    private EmailVerificationService emailVerificationService;
+    @Autowired
+    private MemberService memberService;
 
     @Test
     public void 이메일_인증코드_생성() {
@@ -126,9 +133,9 @@ class EmailVerificationServiceTest {
     @Test
     public void 이메일_인증코드_유효성검사() {
         String code = emailVerificationService.genEmailVerificationCode(1);
-        RsData1<String> rsData1 = emailVerificationService.verifyVerificationCode(1, code);
+        RsData0 rsData = emailVerificationService.verifyVerificationCode(1, code);
 
-        assertThat(rsData1.isSuccess()).isTrue();
+        assertThat(rsData.isSuccess()).isTrue();
     }
 
     @Test
@@ -136,6 +143,37 @@ class EmailVerificationServiceTest {
         String url = emailVerificationService.genEmailVerificationUrl(1);
 
         assertThat(Ut.url.isUrl(url)).isTrue();
+    }
+
+    @Test
+    public void 회원가입이_되면_유효한_이메일인증코드가_발급된다() {
+        RsData2<MemberDto, Long> joinMemberRsData = MemberServiceTest.joinMember(memberService, "user1", "1234", "유저1", "user1@test.com");
+        MemberDto memberDto = joinMemberRsData.getData1();
+
+        long memberId = memberDto.getId();
+        String verificationCode = emailVerificationService.findEmailVerificationCode(memberId);
+
+        boolean isSuccess = emailVerificationService.verifyVerificationCode(memberId, verificationCode).isSuccess();
+
+        assertThat(isSuccess).isTrue();
+    }
+
+    @Test
+    public void 회원가입_후_이메일인증코드로_인증을_완료하면_해당_회원은_이메일인증된_회원이_된다() {
+        RsData2<MemberDto, Long> joinMemberRsData = MemberServiceTest.joinMember(memberService, "user1", "1234", "유저1", "user1@test.com");
+        MemberDto memberDto = joinMemberRsData.getData1();
+
+        long memberId = memberDto.getId();
+        String verificationCode = emailVerificationService.findEmailVerificationCode(memberId);
+
+        boolean isSuccess = memberService.verifyEmail(1, verificationCode).isSuccess();
+        assertThat(isSuccess).isTrue();
+
+        // 해당 회원의 emailVerified 필드가 정말로 true가 인지 체크
+        MemberDto foundMemberDto = memberService.findById(memberId);
+
+        boolean emailVerified = foundMemberDto.isEmailVerified();
+        assertThat(emailVerified).isTrue();
     }
 }
 

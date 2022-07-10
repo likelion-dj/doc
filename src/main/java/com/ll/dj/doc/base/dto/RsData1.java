@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public final class RsData1<T1> extends RsData {
-    private T1 data1;
+    private final T1 data1;
 
     private RsData1(String resultCode, String message, T1 data1) {
         super(resultCode, message);

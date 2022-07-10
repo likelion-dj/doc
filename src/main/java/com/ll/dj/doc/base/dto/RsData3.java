@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public final class RsData3<T1, T2, T3> extends RsData {
-    private T1 data1;
-    private T2 data2;
-    private T3 data3;
+    private final T1 data1;
+    private final T2 data2;
+    private final T3 data3;
 
     private RsData3(String resultCode, String message, T1 data1, T2 data2, T3 data3) {
         super(resultCode, message);

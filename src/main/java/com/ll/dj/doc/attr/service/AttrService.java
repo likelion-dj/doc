@@ -74,10 +74,6 @@ public class AttrService {
 
         if (value.equals("true")) {
             return true;
-        } else if (value.equals("1")) {
-            return true;
-        }
-
-        return false;
+        } else return value.equals("1");
     }
 }

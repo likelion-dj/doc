@@ -1,5 +1,6 @@
 package com.ll.dj.doc.member.service;
 
+import com.ll.dj.doc.base.dto.RsData0;
 import com.ll.dj.doc.base.dto.RsData1;
 import com.ll.dj.doc.base.dto.RsData2;
 import com.ll.dj.doc.emailVerification.service.EmailVerificationService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -62,5 +64,26 @@ public class MemberService {
 
     private RsData1<Long> sendEmailVerificationUrlToMemberEmail(MemberDto memberDto) {
         return emailVerificationService.send(memberDto);
+    }
+
+    @Transactional
+    public void modify(MemberDto memberDto) {
+        Member member = memberRepository.findById(memberDto.getId()).orElseGet(null);
+        modelMapper.map(memberDto, member);
+    }
+
+    public RsData0 verifyEmail(int memberId, String verificationCode) {
+        RsData0 verifyVerificationCodeRs = emailVerificationService.verifyVerificationCode(memberId, verificationCode);
+        if (verifyVerificationCodeRs.isSuccess() == false) {
+            return verifyVerificationCodeRs;
+        }
+
+        // 회원 불러오고
+        // 관련 필드 업데이트
+        MemberDto memberDto = findById(memberId);
+        memberDto.setEmailVerified(true);
+        modify(memberDto);
+
+        return RsData0.of("S-1", "이메일인증이 완료되었습니다.");
     }
 }

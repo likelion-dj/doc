@@ -1,6 +1,7 @@
 package com.ll.dj.doc.emailVerification.service;
 
 import com.ll.dj.doc.attr.service.AttrService;
+import com.ll.dj.doc.base.dto.RsData0;
 import com.ll.dj.doc.base.dto.RsData1;
 import com.ll.dj.doc.email.service.EmailService;
 import com.ll.dj.doc.member.dto.MemberDto;
@@ -43,13 +44,17 @@ public class EmailVerificationService {
         return code;
     }
 
-    public RsData1<String> verifyVerificationCode(long memberId, String code) {
+    public RsData0 verifyVerificationCode(long memberId, String code) {
         String foundCode = attrService.get("member__%d__extra__emailVerificationCode".formatted(memberId), "");
 
         if (foundCode.equals(code) == false) {
-            return RsData1.of("F-1", "만료되었거나 유효하지 않은 코드입니다.", code);
+            return RsData0.of("F-1", "만료되었거나 유효하지 않은 코드입니다.");
         }
 
-        return RsData1.of("S-1", "인증된 코드 입니다.", code);
+        return RsData0.of("S-1", "인증된 코드 입니다.");
+    }
+
+    public String findEmailVerificationCode(long memberId) {
+        return attrService.get("member__%d__extra__emailVerificationCode".formatted(memberId), "");
     }
 }

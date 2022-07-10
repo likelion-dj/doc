@@ -3,16 +3,16 @@
         xmlns:th="http://www.thymeleaf.org"
 >
 
-<header th:fragment="headerFragment" class="top-bar bg-white fixed top-0 left-0 w-full h-[40px] shadow">
+<header class="top-bar bg-white fixed top-0 left-0 w-full h-[40px] shadow" th:fragment="headerFragment">
     <div class="h-full container mx-auto px-2 flex">
-        <a th:href="@{/}" class="flex items-center px-2 font-bold mr-auto">
+        <a class="flex items-center px-2 font-bold mr-auto" th:href="@{/}">
             <span class="tp">DOC</span>
         </a>
 
         <nav class="menu-1">
             <ul class="h-full flex">
                 <li>
-                    <a th:href="@{/articles/new}" class="h-full flex items-center px-2 font-bold">
+                    <a class="h-full flex items-center px-2 font-bold" th:href="@{/articles/new}">
                         <i class="fa-solid fa-pen"></i>
                         &nbsp;
                         <span class="tp">
@@ -21,7 +21,7 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/}" class="h-full flex items-center px-2 font-bold">
+                    <a class="h-full flex items-center px-2 font-bold" th:href="@{/}">
                         <i class="fa-solid fa-file-lines"></i>
                         &nbsp;
                         <span class="tp">
