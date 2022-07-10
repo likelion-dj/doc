@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,13 +42,11 @@ public class ArticleService {
         return of(articleRepository.findById(id).orElse(null));
     }
 
-    @Transactional
     public void modify(ArticleDto articleDto) {
         Article article = articleRepository.findById(articleDto.getId()).get();
         modelMapper.map(articleDto, article);
     }
 
-    @Transactional
     public void remove(long id) {
         articleRepository.deleteById(id);
     }

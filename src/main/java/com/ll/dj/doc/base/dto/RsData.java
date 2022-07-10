@@ -6,11 +6,11 @@ public abstract sealed class RsData permits RsData0, RsData1, RsData2, RsData3 {
     @Getter
     private String resultCode;
     @Getter
-    private String msg;
+    private String message;
 
-    RsData(String resultCode, String msg) {
+    RsData(String resultCode, String message) {
         this.resultCode = resultCode;
-        this.msg = msg;
+        this.message = message;
     }
 
     public boolean isSuccess() {

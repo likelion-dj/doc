@@ -34,7 +34,7 @@ public interface AttrRepository extends JpaRepository<Attr, Long> {
             ON DUPLICATE KEY UPDATE
             modified_date = NOW(),
             `value` = :value,
-            expire_date = :expireDate
+            expire_date = IFNULL(:expireDate, expire_date) 
             """, nativeQuery = true)
     void upsert(@Param("relTypeCode") String relTypeCode, @Param("relId") long relId, @Param("typeCode") String typeCode, @Param("type2Code") String type2Code, @Param("value") String value, @Param("expireDate") LocalDateTime expireDate);
 

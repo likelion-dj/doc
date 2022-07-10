@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
@@ -34,22 +33,21 @@ public class EmailService {
 
         RsData1<String> trySendRs = trySend(email, title, body);
 
-        setCompleted(sendEmailLog, trySendRs.getResultCode(), trySendRs.getMsg());
+        setCompleted(sendEmailLog, trySendRs.getResultCode(), trySendRs.getMessage());
 
         return RsData1.of("S-1", "메일이 발송되었습니다.", sendEmailLog.getId());
     }
 
     private RsData1<String> trySend(String email, String title, String body) {
         if (AppConfig.isNotProd()) {
-            return RsData1.of("S-1", "메일이 발송되었습니다.", "CODE");
+            return RsData1.of("S-0", "메일이 발송되었습니다.", "CODE");
         }
 
         // 나중에 실전 소스코드로 대체하여 실제 메일 발송
         return RsData1.of("S-1", "메일이 발송되었습니다.", "CODE");
     }
 
-    @Transactional
-    private void setCompleted(SendEmailLog sendEmailLog, String resultCode, String msg) {
+    private void setCompleted(SendEmailLog sendEmailLog, String resultCode, String message) {
         if (resultCode.startsWith("S-")) {
             sendEmailLog.setSendEndDate(LocalDateTime.now());
         } else {
@@ -57,6 +55,6 @@ public class EmailService {
         }
 
         sendEmailLog.setResultCode(resultCode);
-        sendEmailLog.setMessage(msg);
+        sendEmailLog.setMessage(message);
     }
 }

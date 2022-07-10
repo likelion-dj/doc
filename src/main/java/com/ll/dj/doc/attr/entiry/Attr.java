@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,14 +22,21 @@ public class Attr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotNull
     private LocalDateTime createdDate;
+    @NotNull
     private LocalDateTime modifiedDate;
-    private LocalDateTime expireDate;
+    @NotNull
     private String relTypeCode;
+    @NotNull
     private long relId;
+    @NotNull
     private String typeCode;
+    @NotNull
     private String type2Code;
+    @NotNull
     private String value;
+    private LocalDateTime expireDate;
 
     public Attr(String relTypeCode, long relId, String typeCode, String type2Code, String value, LocalDateTime expireDate) {
         this.createdDate = LocalDateTime.now();
