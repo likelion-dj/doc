@@ -1,12 +1,15 @@
 package com.ll.dj.doc.email.service;
 
 import com.ll.dj.doc.base.AppConfig;
+import com.ll.dj.doc.base.dto.RsData0;
 import com.ll.dj.doc.base.dto.RsData1;
 import com.ll.dj.doc.email.dto.SendEmailLogDto;
 import com.ll.dj.doc.email.entity.SendEmailLog;
 import com.ll.dj.doc.email.repository.SendEmailLogRepository;
+import com.ll.dj.doc.emailSender.service.EmailSenderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,6 +20,7 @@ import java.time.LocalDateTime;
 public class EmailService {
     private final SendEmailLogRepository emailLogRepository;
     private final ModelMapper mapper;
+    private final EmailSenderService emailSenderService;
 
     public SendEmailLog of(SendEmailLogDto sendEmailLogDto) {
         if (sendEmailLogDto == null) return null;
@@ -32,20 +36,25 @@ public class EmailService {
         SendEmailLogDto sendEmailLogDto = new SendEmailLogDto(email, title, body);
         SendEmailLog sendEmailLog = emailLogRepository.save(of(sendEmailLogDto));
 
-        RsData1<String> trySendRs = trySend(email, title, body);
+        RsData0 trySendRs = trySend(email, title, body);
 
         setCompleted(sendEmailLog, trySendRs.getResultCode(), trySendRs.getMessage());
 
         return RsData1.of("S-1", "메일이 발송되었습니다.", sendEmailLog.getId());
     }
 
-    private RsData1<String> trySend(String email, String title, String body) {
+    private RsData0 trySend(String email, String title, String body) {
         if (AppConfig.isNotProd()) {
-            return RsData1.of("S-0", "메일이 발송되었습니다.", "CODE");
+            return RsData0.of("S-0", "메일이 발송되었습니다.");
         }
 
-        // 나중에 실전 소스코드로 대체하여 실제 메일 발송
-        return RsData1.of("S-1", "메일이 발송되었습니다.", "CODE");
+        try {
+            emailSenderService.send(email, "no-reply@no-reply.com", title, body);
+
+            return RsData0.of("S-1", "메일이 발송되었습니다.");
+        } catch (MailException e) {
+            return RsData0.of("F-1", e.getMessage());
+        }
     }
 
     @Transactional

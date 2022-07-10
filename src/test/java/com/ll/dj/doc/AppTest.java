@@ -5,6 +5,7 @@ import com.ll.dj.doc.article.service.ArticleService;
 import com.ll.dj.doc.base.dto.RsData1;
 import com.ll.dj.doc.base.dto.RsData2;
 import com.ll.dj.doc.email.service.EmailService;
+import com.ll.dj.doc.emailSender.service.EmailSenderService;
 import com.ll.dj.doc.emailVerification.service.EmailVerificationService;
 import com.ll.dj.doc.member.dto.MemberDto;
 import com.ll.dj.doc.member.service.MemberService;
@@ -135,6 +136,19 @@ class EmailVerificationServiceTest {
         String url = emailVerificationService.genEmailVerificationUrl(1);
 
         assertThat(Ut.url.isUrl(url)).isTrue();
+    }
+}
+
+@SpringBootTest
+@Transactional
+@ActiveProfiles("test")
+class EmailSenderServiceTest {
+    @Autowired
+    EmailSenderService emailSenderService;
+
+    @Test
+    public void 이메일_발송_실제() {
+        //emailSenderService.send("jangka512@gmail.com", "no-reply@no-reply.com", "[테스트발송] - 제목", "[테스트발송] - 내용");
     }
 }
 
