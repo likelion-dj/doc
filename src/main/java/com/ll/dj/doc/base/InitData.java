@@ -1,12 +1,12 @@
 package com.ll.dj.doc.base;
 
 import com.ll.dj.doc.article.dto.ArticleDto;
-import com.ll.dj.doc.article.repository.ArticleRepository;
 import com.ll.dj.doc.article.service.ArticleService;
 import com.ll.dj.doc.member.dto.MemberDto;
 import com.ll.dj.doc.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@DependsOn("Ut")
 public class InitData {
 
     private final InitArticleService initArticleService;
@@ -33,8 +34,6 @@ public class InitData {
     @Component
     @RequiredArgsConstructor
     static class InitArticleService {
-
-        private final ArticleRepository articleRepository;
         private final ArticleService articleService;
 
         @Transactional

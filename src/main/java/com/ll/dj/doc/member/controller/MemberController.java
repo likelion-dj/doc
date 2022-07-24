@@ -1,9 +1,14 @@
 package com.ll.dj.doc.member.controller;
 
+import com.ll.dj.doc.member.form.JoinForm;
 import com.ll.dj.doc.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,14 +20,15 @@ public class MemberController {
         return "member/login";
     }
 
-    /*@GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @GetMapping("/join")
+    public String joinForm(JoinForm joinForm, Model model) {
 
-        if (authentication != null) {
-            new SecurityContextLogoutHandler().logout(request, response, authentication);
-        }
+        model.addAttribute("joinForm", joinForm);
+        return "member/join";
+    }
 
-        return "redirect:/login";
-    }*/
+    @PostMapping("/join")
+    public String join(@Valid JoinForm joinForm) {
+        return "redirect:/";
+    }
 }
