@@ -2,7 +2,6 @@ package com.ll.dj.doc.member.controller;
 
 import com.ll.dj.doc.member.form.JoinForm;
 import com.ll.dj.doc.member.service.MemberService;
-import com.ll.dj.doc.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

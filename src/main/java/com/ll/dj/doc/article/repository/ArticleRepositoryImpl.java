@@ -5,14 +5,12 @@ import com.ll.dj.doc.article.dto.QArticleDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static com.ll.dj.doc.article.entity.QArticle.article;
 
 @RequiredArgsConstructor
-public class ArticleRepositoryImpl implements ArticleRepositoryCustom{
+public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
