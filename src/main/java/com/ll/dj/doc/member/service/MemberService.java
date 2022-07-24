@@ -23,6 +23,7 @@ public class MemberService {
     private final EmailVerificationService emailVerificationService;
 
     public MemberDto create(MemberDto memberDto) {
+        memberDto.fillDate();
         Member member = memberDto.toEntity();
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         Member savedMember = memberRepository.save(member);

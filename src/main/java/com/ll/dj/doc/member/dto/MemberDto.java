@@ -31,4 +31,9 @@ public class MemberDto {
     public Member toEntity() {
         return Ut.modelMapper.map(this, Member.class);
     }
+
+    public void fillDate() {
+        this.setCreatedDate(LocalDateTime.now());
+        this.setModifiedDate(LocalDateTime.now());
+    }
 }
