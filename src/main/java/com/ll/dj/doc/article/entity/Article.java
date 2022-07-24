@@ -2,10 +2,7 @@ package com.ll.dj.doc.article.entity;
 
 import com.ll.dj.doc.article.dto.ArticleDto;
 import com.ll.dj.doc.util.Ut;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class Article {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -34,6 +32,13 @@ public class Article {
     private String title;
     @NotNull
     private String body;
+
+    public Article(LocalDateTime createdDate, LocalDateTime modifiedDate, String title, String body) {
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+        this.title = title;
+        this.body = body;
+    }
 
     public static List<ArticleDto> toDto(List<Article> articles) {
         return articles
