@@ -10,22 +10,22 @@ import javax.validation.constraints.Size;
 @Data
 public class JoinForm {
     @NotNull
-    @NotEmpty
-    @Size(min = 4)
+    @NotEmpty(message = "아이디를 입력해주세요")
+    @Size(min = 4, message = "아이디는 4글자 이상이어야 합니다.")
     private String username;
     @NotNull
-    @NotEmpty
-    @Size(min = 4)
+    @NotEmpty(message = "패스워드를 입력해주세요")
+    @Size(min = 4, message = "비밀번호는 4글자 이상이어야 합니다.")
     private String password1;
-    @NotNull
-    @NotEmpty
-    @Size(min = 4)
+
+    @NotEmpty(message = "패스워드를 입력해주세요")
+    @Size(min = 4, message = "비밀번호는 4글자 이상이어야 합니다.")
     private String password2;
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "이메일을 입력해주세요")
     @Email
     private String email;
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "이름을 입력해주세요")
     private String name;
 }

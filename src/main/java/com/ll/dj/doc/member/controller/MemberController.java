@@ -5,6 +5,7 @@ import com.ll.dj.doc.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -28,7 +29,11 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid JoinForm joinForm) {
+    public String join(@Valid JoinForm joinForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "member/join";
+        }
+
         return "redirect:/";
     }
 }
