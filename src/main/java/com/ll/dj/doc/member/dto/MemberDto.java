@@ -1,5 +1,7 @@
 package com.ll.dj.doc.member.dto;
 
+import com.ll.dj.doc.member.entity.Member;
+import com.ll.dj.doc.util.Ut;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,5 +26,9 @@ public class MemberDto {
         this.password = password;
         this.name = name;
         this.email = email;
+    }
+
+    public Member toEntity() {
+        return Ut.modelMapper.map(this, Member.class);
     }
 }

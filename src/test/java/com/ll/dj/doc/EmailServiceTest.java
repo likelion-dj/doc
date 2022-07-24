@@ -21,9 +21,9 @@ class EmailServiceTest {
     @Test
     public void 이메일_발송() {
         RsData1<Long> sendEmailRs = emailService.sendEmail("user1@test.com", "제목1", "내용1");
-        long emailLogId = sendEmailRs.getData1();
+        long sendEmailLogId = sendEmailRs.getData1();
 
-        assertThat(emailLogId).isGreaterThan(0);
+        assertThat(sendEmailLogId).isGreaterThan(0);
     }
 
     @Test

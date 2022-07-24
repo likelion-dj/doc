@@ -1,6 +1,8 @@
 package com.ll.dj.doc.member.entity;
 
 
+import com.ll.dj.doc.member.dto.MemberDto;
+import com.ll.dj.doc.util.Ut;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,4 +42,12 @@ public class Member {
     @ColumnDefault("0")
     @NotNull
     private boolean emailVerified;
+
+    public MemberDto toDto() {
+        return Ut.modelMapper.map(this, MemberDto.class);
+    }
+
+    public void update(MemberDto memberDto) {
+        Ut.modelMapper.map(memberDto, this);
+    }
 }

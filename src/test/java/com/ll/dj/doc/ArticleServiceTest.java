@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 class ArticleServiceTest {
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     private ArticleDto genArticleDto(String title, String body) {
         return ArticleDto.builder()
